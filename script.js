@@ -26,7 +26,6 @@ const closeModal = function () {
 };
 
 btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
-
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
 
@@ -39,48 +38,11 @@ document.addEventListener('keydown', function (e) {
 ///////////////////////////////////////
 // Button scrolling
 btnScrollTo.addEventListener('click', function (e) {
-  const s1coords = section1.getBoundingClientRect();
-  console.log(s1coords);
-
-  console.log(e.target.getBoundingClientRect());
-
-  console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset);
-
-  console.log(
-    `height/width viewport`,
-    document.documentElement.clientHeight,
-    document.documentElement.clientWidth
-  );
-
-  // Scrolling the oldskool way by manually calculating the values
-  // window.scrollTo(
-  //   s1coords.left + window.pageXOffset,
-  //   s1coords.top + window.pageYOffset
-  // ); // this top is always relative to the viewport, not to the document (the top of the page) The solution is to add the current scroll position to the top value of s1coords.
-  // window.scrollTo({
-  //   left: s1coords.left + window.pageXOffset,
-  //   top: s1coords.top + window.pageYOffset,
-  //   behavior: 'smooth',
-  // });
-
-  // Scrolling the NEW way, with a method. It only works in modern browsers.
   section1.scrollIntoView({ behavior: 'smooth' });
 });
 
 ///////////////////////////////////////
 // Page navigation
-
-// document.querySelectorAll('.nav__link').forEach(function (el) {
-//   el.addEventListener('click', function (e) {
-//     e.preventDefault();
-//     const id = this.getAttribute('href');
-//     console.log(id);
-//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
-//   });
-// });
-
-// Event delgation. 1. add event listener to common parent element
-// 2. Determine what element originated the event
 
 document.querySelector('.nav__links').addEventListener('click', function (e) {
   e.preventDefault();
@@ -141,7 +103,6 @@ const navHeight = nav.getBoundingClientRect().height;
 
 const stickyNav = function (entries) {
   const [entry] = entries;
-  // console.log(entry);
 
   if (!entry.isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
@@ -275,7 +236,6 @@ const slider = function () {
   btnLeft.addEventListener('click', prevSlide);
 
   document.addEventListener('keydown', function (e) {
-    console.log(e);
     e.key === 'ArrowLeft' && prevSlide();
     e.key === 'ArrowRight' && nextSlide();
   });
@@ -289,125 +249,3 @@ const slider = function () {
   });
 };
 slider();
-///////////////////
-
-// old stuff not sure what to do with
-// const h1 = document.querySelector('h1');
-
-// const alertH1 = function (e) {
-//   alert('addEventListener: Great! You are reading the heading :D');
-
-//   h1.removeEventListener('mouseenter', alertH1);
-// };
-
-// h1.addEventListener('mouseenter', alertH1);
-
-// setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
-// h1.onmouseenter = function (e) {
-//   alert('addEventListener: Great! You are reading the heading :D');
-// };
-
-///////////////////////////////////////
-// Bubbling visualization practice
-/*
-const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + 1);
-const randomColor = () =>
-  `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
-console.log(randomColor(0, 255));
-
-document.querySelector('.nav__link').addEventListener('click', function (e) {
-  this.style.backgroundColor = randomColor();
-  console.log('LINK', e.target, e.currentTarget);
-  console.log(e.currentTarget === this);
-
-  // Stop propagation
-  e.stopPropagation();
-});
-
-document.querySelector('.nav__links').addEventListener('click', function (e) {
-  this.style.backgroundColor = randomColor();
-  console.log('CONTAINER', e.target, e.currentTarget);
-});
-
-document.querySelector('.nav').addEventListener('click', function (e) {
-  this.style.backgroundColor = randomColor();
-  console.log('NAV', e.target, e.currentTarget);
-});
-*/
-
-///////////////////////////////
-// DOM traversing practice
-
-// const h1 = document.querySelector('h1');
-/*
-// going downwards: child
-console.log(h1.querySelectorAll('.highlight'));
-console.log(h1.childNodes);
-console.log(h1.children);
-h1.firstElementChild.style.color = 'white';
-h1.lastElementChild.style.color = 'orangered';
-
-// Going upwards: parents
-console.log(h1.parentNode);
-console.log(h1.parentNode);
-
-h1.closest('.header').style.background = 'var(--gradient-secondary)  ';
-
-h1.closest('h1').style.background = 'var(--gradient-primary)';
-
-// Going sideways: siblings.
-console.log(h1.previousElementSibling);
-console.log(h1.nextElementSibling);
-
-console.log(h1.previousSibling);
-console.log(h1.nextSibling);
-
-console.log(h1.parentElement.children);
-[...h1.parentElement.children].forEach(function (el) {
-  if (el !== h1) el.style.transform = 'scale(0.5)';
-});
-*/
-
-// // Sticky navigation
-// const initialCoords = section1.getBoundingClientRect();
-// console.log(initialCoords);
-
-// window.addEventListener('scroll', function () {
-//   console.log(window.scrollY);
-
-//   if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
-//   else nav.classList.remove('sticky');
-// });
-
-// Sticky navigation: Intersectino Observer API
-
-// const obsCallback = function (entries, observer) {
-//   entries.forEach(entry => {
-//     console.log(entry);
-//   });
-// };
-
-// const obsOptions = {
-//   root: null, // to intersect entire viewport
-//   threshold: [0, 0.2],
-// };
-
-// const observer = new IntersectionObserver(obsCallback, obsOptions);
-// observer.observe(section1);
-
-/////////////////////////////////
-// Notes from lecture 202
-
-document.addEventListener('DOMContentLoaded', function (e) {
-  console.log('HTML parsed and DOM tree built!', e, Date.now());
-});
-
-window.addEventListener('load', function (e) {
-  console.log('Page fully loaded', e, Date.now());
-});
-
-// window.addEventListener('beforeunload', function (e) {
-//   e.preventDefault();
-//   console.log(e);
-//   e.returnValue = '';
-// });
